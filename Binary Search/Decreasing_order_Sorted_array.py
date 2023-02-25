@@ -7,7 +7,7 @@ while start<=end:
     print(mid)
     exit()
   elif a[start]>e:
-    start = mid-1
-  else:  end = mid+1
+    start = mid+1
+  else:  end = mid-1
 print(-1)    
     
