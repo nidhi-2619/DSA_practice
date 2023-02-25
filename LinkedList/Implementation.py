@@ -1,4 +1,4 @@
-lass Node:
+class Node:
 #     for constructing of the node
     def __init__(self,val):
         self.val = val
