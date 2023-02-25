@@ -8,9 +8,9 @@ def binary_search(start,end,arr,element):
     if arr[mid]==element:
       return mid
     elif arr[mid]<element:
-      left = mid+1
+      start = mid+1
     else:
-      right = mid-1
+      end = mid-1
   return -1 #if element is not found    
         
 index = binary_search(arr,e)    
