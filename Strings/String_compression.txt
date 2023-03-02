@@ -1,0 +1,40 @@
+
+Question Link:
+
+
+
+
+class Solution:
+    def compress(self, chars: List[str]) -> int:
+        start,next,count = 0,0,0
+        n,letter = len(chars),chars[0]
+        if n==1:return n
+        # next is used for iteration
+        while next<n:
+            if letter==chars[next]:
+                next+=1
+                count+=1
+            else:
+                # putting the letter into array
+                chars[start]=letter    
+                # now update the letter with next and increment the start index
+                letter = chars[next]
+                start+=1
+                if count>1:
+                    for i in str(count):
+                        chars[start]=i
+                        start+=1
+                count = 0
+        #after reading the end of string perform the same procedure   
+        if next==n:
+            chars[start]=letter
+            start+=1
+            if count>1:
+                for i in str(count):
+                    chars[start]=i
+                    start+=1
+        return start                   
+
+
+
+        
