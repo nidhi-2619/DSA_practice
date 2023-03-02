@@ -1,5 +1,5 @@
 
-Question Link: https://leetcode.com/problems/string-compression/description/
+[Question Link]: (https://leetcode.com/problems/string-compression/description/)
 
 
 
