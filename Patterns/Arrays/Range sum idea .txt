@@ -1,0 +1,58 @@
+Question link -- https://practice.geeksforgeeks.org/problems/a6528c893d4ab645ec6e0690c7982748385099c8/1
+
+Range Sum Query Idea:
+If you have multiple queries telling to increment the numbers in the range l to r, 
+then you have to just increment number at l and decrement number at r+1 and after performing all queries you just do prefix sum for all indices.
+
+Same idea is to be used for OR queries.
+So to convert OR to Range sum we will use log2(1e5)~17 bits initialized to 0.
+And for each query we will increment all the set bits of the number to be incremented at l(left) and decrement all the set bits at r+1. 
+Similarly perform prefix sum at each bit of the index and we will have the final answer for that index.
+
+
+Code -- 
+class Solution{
+    public:
+        vector<int> updateQuery(int N,int Q,vector<vector<int>> &U)
+        {
+            // range query sum idea
+            // 1e5 --> max bits = 17
+            int arr[N+1][17];
+            memset(arr, 0, sizeof arr);
+            
+            for(auto &q: U){
+                int l = q[0]-1;
+                int r = q[1]-1;
+                int x = q[2];
+                
+                for(int pos = 0; pos < 17; pos++){
+                    bool bit = x & (1 << pos);
+                    if(bit){
+                        arr[l][pos]++;
+                        arr[r+1][pos]--;
+                    }
+                }
+            }
+            
+            // prefix sum
+            for(int i = 1; i < N; i++){
+                for(int pos = 0; pos < 17; pos++)
+                    arr[i][pos] += arr[i-1][pos];
+            }
+            
+            vector<int> ans;
+            
+            for(int i = 0; i < N; i++){
+                int val = 0;
+                
+                for(int pos = 0; pos < 17; pos++){
+                    if(arr[i][pos] > 0)
+                        val |= (1 << pos);
+                }
+                
+                ans.push_back(val);
+            }
+            
+            return ans;
+        }
+};
