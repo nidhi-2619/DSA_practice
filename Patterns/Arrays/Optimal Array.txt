@@ -1,0 +1,66 @@
+Question Link - https://practice.geeksforgeeks.org/problems/d4aeef538e6dd3280dda5f8ed7964727fdc7075f/1
+
+Brute force - Minimum step to make all elements equal in a sorted array is equal to the steps required to make each element equal to median.
+
+Solution: 
+class Solution{
+public:
+    vector<int> optimalArray(int n,vector<int> &a){
+        vector<int> ans(n, 0);
+        
+        for(int i = 0; i < n; i++){
+            int median = 0, op = 0;
+            if(i&1) // number of elements even
+                median = (a[i/2]+a[i/2+1])/2;
+            else // number of elements odd
+                median = a[i/2];
+            for(int j = 0; j <= i; j++) op += abs(median-a[j]);
+            
+            ans[i] = op;
+        }
+        
+        return ans;
+    }
+
+//TC -- O(N2) SC = O(1) excluding ans space.
+};
+
+Optimal Solution:
+Approach--
+Now let us suppose that we are given with array 1,2,3,4,5,6,7,8,9;
+Then in this case for n = 4[even].Then given subarray will be 1,2,3,4;then median will be (arr[1]+arr[2])//2.The optimal sum would be [(median-1)+(median-2)+(3-median)+(4-median)] = sum2-sum1 [where sum2 = total sum of elements after median to ith term and sum1 = total sum of elements starting from 0th index upto median only]
+
+Similarly for n = 5[odd].In this case consider the subarray to be 1,2,3,4,5;then median will arr[2] = 3.Thus,The optimal sum would be [(median-1)+(median-2)+(4-median)+(5-median)] = sum2-sum1 [where sum2 = total sum of elements after median to ith term and sum1 = total sum of elements starting from 0th index upto median only].
+
+Thus in both cases the optimal sum at index ith would definitely equals sum2 and sum1.
+
+now sum1 is sum upto median term which can be calculated easily by adding the value when even index is encountered.
+
+And,sum2 can be calculated by sliding window rule,slide the windows when odd index is encoutered.
+
+Finally return the ans array.
+
+
+Code --
+class Solution{
+public:
+    vector<int> optimalArray(int n,vector<int> &a){
+        vector<int> ans(n, 0);
+        int sum1 = 0, sum2 = 0;
+        for(int i = 0; i < n; i++){
+            if(i&1){
+                // number of elements even
+                sum1 += a[i/2];
+                sum2 += a[i];
+            }
+            else{
+                // number of elements odd
+                sum2 += (a[i]-a[i/2]);// remove the middle element
+            }
+            
+            ans[i] = sum2-sum1;
+        }
+        
+        return ans;
+    }
+};
